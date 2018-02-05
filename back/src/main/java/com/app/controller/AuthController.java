@@ -1,14 +1,8 @@
 package com.app.controller;
 
-import com.app.entity.Role;
-import com.app.entity.User;
-import com.app.exception.InvalidPasswordException;
-import com.app.exception.UserNotFoundException;
-import com.app.security.auth.JwtAuthenticationRequest;
-import com.app.security.auth.JwtAuthenticationResponse;
-import com.app.security.auth.JwtUtil;
-import com.app.security.auth.JwtUser;
-import com.app.service.UserService;
+import javax.persistence.NoResultException;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -23,10 +17,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.NoResultException;
-import javax.servlet.http.HttpServletRequest;
+import com.app.entity.Role;
+import com.app.entity.User;
+import com.app.exception.InvalidPasswordException;
+import com.app.exception.UserNotFoundException;
+import com.app.security.auth.JwtAuthenticationRequest;
+import com.app.security.auth.JwtAuthenticationResponse;
+import com.app.security.auth.JwtUser;
+import com.app.security.auth.JwtUtil;
+import com.app.service.UserService;
 
 @RestController
 public class AuthController extends BaseController {
@@ -146,5 +149,5 @@ public class AuthController extends BaseController {
         String refreshedToken = jwtUtil.refreshToken(token);
         return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
     }
-
+    
 }
