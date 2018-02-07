@@ -66,7 +66,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/**/*.js"
                 ).permitAll()
                 .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/jobs/**").permitAll()//todo: change this row!!!
                 .anyRequest().authenticated();
 
         httpSecurity
