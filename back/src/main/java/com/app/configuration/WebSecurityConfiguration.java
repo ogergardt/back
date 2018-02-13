@@ -22,7 +22,9 @@ import com.app.security.auth.JwtAuthenticationTokenFilter;
 
 @Configuration
 @EnableWebSecurity
+//may be have sence to move this annotation to App.java
 @EnableJpaRepositories(basePackages = {"com.app.repository"})
+//may be have sence to move this annotation to App.java
 @EntityScan(value = "com.app.entity")
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -32,7 +34,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
-
+    
     @Autowired
     public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
@@ -49,14 +51,16 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
         return new JwtAuthenticationTokenFilter();
     }
-
+    
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                // don't create session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
+                // allow anonymous resource requests
                 .antMatchers(
                         HttpMethod.GET,
                         "/",
